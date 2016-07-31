@@ -1,0 +1,40 @@
+void score(int *x,int *y)
+{
+    time_t t;
+    struct tm *tb;
+    int compteur;
+    t = time(NULL);
+    tb = localtime(&t);
+    tb->tm_hour=*x;
+    tb->tm_min=*y;
+    char ch1[300];
+
+    if ((tb->tm_hour==23) && (tb->tm_min==59))
+    {
+        tb->tm_hour=0;
+        tb->tm_min=0;
+    }
+    else if ((tb->tm_min==59) &&  (tb->tm_hour<23) )
+    {
+        tb->tm_min=0;
+        tb->tm_hour++;
+    }
+    else
+        tb->tm_min++;
+
+    if ((tb->tm_hour<10)&&(tb->tm_min<10))
+        sprintf(ch1,"0%d:0%d",tb->tm_hour,tb->tm_min);
+    else if (tb->tm_hour<10)
+        sprintf(ch1,"0%d:%d",tb->tm_hour,tb->tm_min);
+    else if (tb->tm_min<10)
+        sprintf(ch1,"%d:0%d",tb->tm_hour,tb->tm_min);
+    else
+        sprintf(ch1,"%d:%d",tb->tm_hour,tb->tm_min);
+
+    *x=tb->tm_hour;
+    *y=tb->tm_min;
+
+    attendre(1);
+    afficher_texte( 1, 1, 25, ch1, 50, 50,50);
+
+}
